@@ -286,11 +286,15 @@ struct MetricDetailView: View {
     }
 
     /// The panel lists the heaviest processes; Activity Monitor is where you
-    /// go when that top slice is not enough. Opened by URL so macOS resolves
-    /// the app wherever the system keeps it.
+    /// go when that top slice is not enough. Asked for by bundle id so macOS
+    /// answers with wherever it keeps the app, since that path has moved
+    /// between releases. The known path is only the fallback.
     private var activityMonitorButton: some View {
         Button {
-            NSWorkspace.shared.open(URL(fileURLWithPath: "/System/Applications/Utilities/Activity Monitor.app"))
+            let fallback = URL(fileURLWithPath: "/System/Applications/Utilities/Activity Monitor.app")
+            let url = NSWorkspace.shared
+                .urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor") ?? fallback
+            NSWorkspace.shared.open(url)
         } label: {
             Image(systemName: "arrow.up.forward.app")
                 .font(.system(size: 10, weight: .medium))
