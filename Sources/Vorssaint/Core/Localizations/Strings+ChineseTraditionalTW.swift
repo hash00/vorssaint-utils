@@ -711,6 +711,7 @@ extension Strings {
         menuBarLabelStyleClassic: "經典",
         monitorMemoryStyleLabel: "記憶體顯示方式",
         monitorMemoryPressureDot: "壓力圓點",
+        monitorOpenActivityMonitor: "打開活動監視器",
         memoryStyleDot: "圓點",
         memoryStylePercent: "%",
         memoryStyleBoth: "兩者",

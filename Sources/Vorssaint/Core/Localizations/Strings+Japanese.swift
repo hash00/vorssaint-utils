@@ -710,6 +710,7 @@ extension Strings {
         menuBarLabelStyleClassic: "標準",
         monitorMemoryStyleLabel: "メモリの表示",
         monitorMemoryPressureDot: "メモリ圧力ドット",
+        monitorOpenActivityMonitor: "アクティビティモニタを開く",
         memoryStyleDot: "ドット",
         memoryStylePercent: "%",
         memoryStyleBoth: "両方",

@@ -285,6 +285,22 @@ struct MetricDetailView: View {
         .panelCard()
     }
 
+    /// The panel lists the heaviest processes; Activity Monitor is where you
+    /// go when that top slice is not enough. Opened by URL so macOS resolves
+    /// the app wherever the system keeps it.
+    private var activityMonitorButton: some View {
+        Button {
+            NSWorkspace.shared.open(URL(fileURLWithPath: "/System/Applications/Utilities/Activity Monitor.app"))
+        } label: {
+            Image(systemName: "arrow.up.forward.app")
+                .font(.system(size: 10, weight: .medium))
+                .foregroundStyle(.tertiary)
+        }
+        .buttonStyle(.plain)
+        .help(l10n.s.monitorOpenActivityMonitor)
+        .accessibilityLabel(l10n.s.monitorOpenActivityMonitor)
+    }
+
     private var processCard: some View {
         VStack(alignment: .leading, spacing: 7) {
             HStack(spacing: 6) {
@@ -292,6 +308,7 @@ struct MetricDetailView: View {
                     .font(.system(size: 10, weight: .medium))
                     .foregroundStyle(.tertiary)
                 Spacer(minLength: 0)
+                activityMonitorButton
             }
             if processRows.isEmpty {
                 Text(processRowsLoading ? l10n.s.breakdownMeasuring : emptyProcessText)

@@ -710,6 +710,7 @@ extension Strings {
         menuBarLabelStyleClassic: "经典",
         monitorMemoryStyleLabel: "内存显示方式",
         monitorMemoryPressureDot: "压力圆点",
+        monitorOpenActivityMonitor: "打开活动监视器",
         memoryStyleDot: "圆点",
         memoryStylePercent: "%",
         memoryStyleBoth: "两者",

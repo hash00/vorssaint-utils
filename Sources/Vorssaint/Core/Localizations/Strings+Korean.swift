@@ -711,6 +711,7 @@ extension Strings {
         menuBarLabelStyleClassic: "표준",
         monitorMemoryStyleLabel: "메모리 표시",
         monitorMemoryPressureDot: "메모리 압력 점",
+        monitorOpenActivityMonitor: "활성 상태 보기 열기",
         memoryStyleDot: "점",
         memoryStylePercent: "%",
         memoryStyleBoth: "둘 다",

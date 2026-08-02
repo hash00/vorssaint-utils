@@ -711,6 +711,7 @@ extension Strings {
         menuBarLabelStyleClassic: "Классические",
         monitorMemoryStyleLabel: "Показывать память как",
         monitorMemoryPressureDot: "Точка давления",
+        monitorOpenActivityMonitor: "Открыть Мониторинг системы",
         memoryStyleDot: "Точка",
         memoryStylePercent: "%",
         memoryStyleBoth: "Оба",

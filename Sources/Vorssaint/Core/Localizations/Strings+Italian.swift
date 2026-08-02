@@ -710,6 +710,7 @@ extension Strings {
         menuBarLabelStyleClassic: "Classiche",
         monitorMemoryStyleLabel: "Mostra la memoria come",
         monitorMemoryPressureDot: "Punto pressione",
+        monitorOpenActivityMonitor: "Apri Monitoraggio Attività",
         memoryStyleDot: "Punto",
         memoryStylePercent: "%",
         memoryStyleBoth: "Entrambi",

@@ -710,6 +710,7 @@ extension Strings {
         menuBarLabelStyleClassic: "Klasik",
         monitorMemoryStyleLabel: "Belleği şöyle göster",
         monitorMemoryPressureDot: "Basınç noktası",
+        monitorOpenActivityMonitor: "Etkinlik Monitörü'nü aç",
         memoryStyleDot: "Nokta",
         memoryStylePercent: "%",
         memoryStyleBoth: "İkisi de",
