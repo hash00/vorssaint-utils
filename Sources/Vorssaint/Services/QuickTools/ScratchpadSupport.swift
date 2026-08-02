@@ -33,12 +33,9 @@ enum ScratchpadRetention: String, CaseIterable {
 }
 
 enum ScratchpadSupport {
-    /// How solid the pad's frosted background is drawn, as a fraction. The
-    /// floor is not zero for the same reason as the Dock preview's: the note
-    /// sits straight on the material, so past a certain point it is reading
-    /// against the desktop and the pad stops looking like a pad. The two share
-    /// a floor so the sliders behave alike.
-    static let backgroundOpacityRange: ClosedRange<Double> = 0.4...1
+    /// The fill sits over the existing material: zero preserves the familiar
+    /// frosted pad, while one fully covers what is behind the window.
+    static let backgroundOpacityRange: ClosedRange<Double> = 0...1
 
     static func sanitizedBackgroundOpacity(_ value: Double) -> Double {
         guard value.isFinite else { return backgroundOpacityRange.upperBound }

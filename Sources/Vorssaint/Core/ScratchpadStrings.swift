@@ -23,7 +23,8 @@ struct ScratchpadFeatureStrings {
     let closeOnClickOutside: String
     let keepOpen: String
     let backgroundOpacity: String
-    let backgroundOpacityCaption: String
+    let backgroundTranslucent: String
+    let backgroundOpaque: String
 }
 
 extension FeatureStrings {
@@ -66,7 +67,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Close when I click outside",
         keepOpen: "Keep open",
         backgroundOpacity: "Pad background",
-        backgroundOpacityCaption: "Turn it down to see more of what sits behind the pad."
+        backgroundTranslucent: "Translucent",
+        backgroundOpaque: "Opaque"
     )
 
     static let ptBR = ScratchpadFeatureStrings(
@@ -88,7 +90,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Fechar ao clicar fora",
         keepOpen: "Manter aberto",
         backgroundOpacity: "Fundo do bloco",
-        backgroundOpacityCaption: "Diminua para ver mais do que está atrás do bloco."
+        backgroundTranslucent: "Translúcido",
+        backgroundOpaque: "Opaco"
     )
 
     static let tr = ScratchpadFeatureStrings(
@@ -110,7 +113,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Dışarı tıklayınca kapat",
         keepOpen: "Açık tut",
         backgroundOpacity: "Defter arka planı",
-        backgroundOpacityCaption: "Defterin arkasındakileri daha çok görmek için azalt."
+        backgroundTranslucent: "Yarı saydam",
+        backgroundOpaque: "Opak"
     )
 
     static let ru = ScratchpadFeatureStrings(
@@ -132,7 +136,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Закрывать при щелчке снаружи",
         keepOpen: "Оставить открытым",
         backgroundOpacity: "Фон черновика",
-        backgroundOpacityCaption: "Уменьшите, чтобы видеть больше того, что находится за черновиком."
+        backgroundTranslucent: "Полупрозрачный",
+        backgroundOpaque: "Непрозрачный"
     )
 
     static let es = ScratchpadFeatureStrings(
@@ -154,7 +159,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Cerrar al hacer clic fuera",
         keepOpen: "Mantener abierto",
         backgroundOpacity: "Fondo del borrador",
-        backgroundOpacityCaption: "Bájalo para ver más de lo que hay detrás del borrador."
+        backgroundTranslucent: "Translúcido",
+        backgroundOpaque: "Opaco"
     )
 
     static let de = ScratchpadFeatureStrings(
@@ -176,7 +182,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Beim Klick außerhalb schließen",
         keepOpen: "Offen halten",
         backgroundOpacity: "Hintergrund des Zettels",
-        backgroundOpacityCaption: "Verringere ihn, um mehr von dem zu sehen, was hinter dem Zettel liegt."
+        backgroundTranslucent: "Durchscheinend",
+        backgroundOpaque: "Deckend"
     )
 
     static let fr = ScratchpadFeatureStrings(
@@ -198,7 +205,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Fermer si je clique à l’extérieur",
         keepOpen: "Garder ouvert",
         backgroundOpacity: "Fond du brouillon",
-        backgroundOpacityCaption: "Baissez-le pour voir davantage ce qui se trouve derrière le brouillon."
+        backgroundTranslucent: "Translucide",
+        backgroundOpaque: "Opaque"
     )
 
     static let it = ScratchpadFeatureStrings(
@@ -220,7 +228,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "Chiudi quando clicco fuori",
         keepOpen: "Mantieni aperto",
         backgroundOpacity: "Sfondo della bozza",
-        backgroundOpacityCaption: "Abbassalo per vedere di più di ciò che sta dietro alla bozza."
+        backgroundTranslucent: "Traslucido",
+        backgroundOpaque: "Opaco"
     )
 
     static let ja = ScratchpadFeatureStrings(
@@ -242,7 +251,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "外側をクリックしたら閉じる",
         keepOpen: "開いたままにする",
         backgroundOpacity: "メモの背景",
-        backgroundOpacityCaption: "下げると、メモの後ろにあるものがより見えるようになります。"
+        backgroundTranslucent: "半透明",
+        backgroundOpaque: "不透明"
     )
 
     static let ko = ScratchpadFeatureStrings(
@@ -264,7 +274,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "바깥을 클릭하면 닫기",
         keepOpen: "열어 두기",
         backgroundOpacity: "메모 배경",
-        backgroundOpacityCaption: "낮추면 메모 뒤에 있는 것이 더 많이 보입니다."
+        backgroundTranslucent: "반투명",
+        backgroundOpaque: "불투명"
     )
 
     static let zhHans = ScratchpadFeatureStrings(
@@ -286,7 +297,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "点击外部时关闭",
         keepOpen: "保持打开",
         backgroundOpacity: "草稿板背景",
-        backgroundOpacityCaption: "调低后可以看到更多草稿板后面的内容。"
+        backgroundTranslucent: "半透明",
+        backgroundOpaque: "不透明"
     )
 
     static let zhTW = ScratchpadFeatureStrings(
@@ -308,7 +320,8 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "點一下外部時關閉",
         keepOpen: "保持開啟",
         backgroundOpacity: "草稿板背景",
-        backgroundOpacityCaption: "調低後可以看到更多草稿板後面的內容。"
+        backgroundTranslucent: "半透明",
+        backgroundOpaque: "不透明"
     )
 
     static let zhHK = ScratchpadFeatureStrings(
@@ -330,6 +343,7 @@ extension ScratchpadFeatureStrings {
         closeOnClickOutside: "點一下外部時關閉",
         keepOpen: "保持開啟",
         backgroundOpacity: "草稿板背景",
-        backgroundOpacityCaption: "調低後可以看到更多草稿板後面的內容。"
+        backgroundTranslucent: "半透明",
+        backgroundOpaque: "不透明"
     )
 }

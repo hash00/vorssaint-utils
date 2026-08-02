@@ -23,7 +23,7 @@ struct QuickToolsSettings: View {
     @AppStorage(DefaultsKey.scratchpadShortcutEnabled) private var scratchpadShortcutEnabled = false
     @AppStorage(DefaultsKey.scratchpadRetention) private var scratchpadRetention = ScratchpadRetention.never.rawValue
     @AppStorage(DefaultsKey.scratchpadCloseOnClickOutside) private var scratchpadCloseOnClickOutside = true
-    @AppStorage(DefaultsKey.scratchpadBackgroundOpacity) private var scratchpadBackgroundOpacity = 1.0
+    @AppStorage(DefaultsKey.scratchpadBackgroundOpacity) private var scratchpadBackgroundOpacity = 0.0
     @AppStorage(DefaultsKey.colorPickerFormat) private var colorFormat = "hex"
     @AppStorage(DefaultsKey.colorPickerBareHex) private var colorBareHex = false
     @AppStorage(DefaultsKey.micMuteMenuBarIndicator) private var micMenuBarIndicator = false
@@ -251,19 +251,19 @@ struct QuickToolsSettings: View {
                         .onChange(of: scratchpadCloseOnClickOutside) { _, _ in
                             ScratchpadService.shared.outsideClickPreferenceDidChange()
                         }
-                    HStack {
+                    VStack(alignment: .leading, spacing: 6) {
                         Text(FeatureStrings.scratchpad(l10n.language).backgroundOpacity)
                         Slider(value: scratchpadBackgroundOpacityBinding,
                                in: ScratchpadSupport.backgroundOpacityRange,
                                step: 0.05)
-                        Text("\(scratchpadBackgroundOpacityPercent)%")
-                            .font(.system(.body, design: .monospaced))
-                            .foregroundStyle(.secondary)
-                            .frame(width: 52, alignment: .trailing)
-                    }
-                    Text(FeatureStrings.scratchpad(l10n.language).backgroundOpacityCaption)
+                        HStack {
+                            Text(FeatureStrings.scratchpad(l10n.language).backgroundTranslucent)
+                            Spacer()
+                            Text(FeatureStrings.scratchpad(l10n.language).backgroundOpaque)
+                        }
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    }
                     Toggle(l10n.s.quickToolShortcutToggle, isOn: $scratchpadShortcutEnabled)
                         .onChange(of: scratchpadShortcutEnabled) { _, _ in
                             ScratchpadService.shared.syncWithPreferences()
@@ -290,10 +290,6 @@ struct QuickToolsSettings: View {
             get: { ScratchpadSupport.sanitizedBackgroundOpacity(scratchpadBackgroundOpacity) },
             set: { scratchpadBackgroundOpacity = ScratchpadSupport.sanitizedBackgroundOpacity($0) }
         )
-    }
-
-    private var scratchpadBackgroundOpacityPercent: Int {
-        Int((ScratchpadSupport.sanitizedBackgroundOpacity(scratchpadBackgroundOpacity) * 100).rounded())
     }
 }
 
