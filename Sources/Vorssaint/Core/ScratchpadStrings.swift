@@ -22,6 +22,8 @@ struct ScratchpadFeatureStrings {
     let retentionCaption: String
     let closeOnClickOutside: String
     let keepOpen: String
+    let backgroundOpacity: String
+    let backgroundOpacityCaption: String
 }
 
 extension FeatureStrings {
@@ -62,7 +64,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "After a month unused",
         retentionCaption: "The pad empties itself once the text goes that long without edits.",
         closeOnClickOutside: "Close when I click outside",
-        keepOpen: "Keep open"
+        keepOpen: "Keep open",
+        backgroundOpacity: "Pad background",
+        backgroundOpacityCaption: "Turn it down to see more of what sits behind the pad."
     )
 
     static let ptBR = ScratchpadFeatureStrings(
@@ -82,7 +86,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "Após um mês sem uso",
         retentionCaption: "O bloco se esvazia quando o texto passa esse tempo sem edições.",
         closeOnClickOutside: "Fechar ao clicar fora",
-        keepOpen: "Manter aberto"
+        keepOpen: "Manter aberto",
+        backgroundOpacity: "Fundo do bloco",
+        backgroundOpacityCaption: "Diminua para ver mais do que está atrás do bloco."
     )
 
     static let tr = ScratchpadFeatureStrings(
@@ -102,7 +108,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "Bir ay kullanılmayınca",
         retentionCaption: "Metin bu süre boyunca düzenlenmezse defter kendini boşaltır.",
         closeOnClickOutside: "Dışarı tıklayınca kapat",
-        keepOpen: "Açık tut"
+        keepOpen: "Açık tut",
+        backgroundOpacity: "Defter arka planı",
+        backgroundOpacityCaption: "Defterin arkasındakileri daha çok görmek için azalt."
     )
 
     static let ru = ScratchpadFeatureStrings(
@@ -122,7 +130,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "Через месяц без правок",
         retentionCaption: "Черновик очищается сам, если текст столько времени не редактировался.",
         closeOnClickOutside: "Закрывать при щелчке снаружи",
-        keepOpen: "Оставить открытым"
+        keepOpen: "Оставить открытым",
+        backgroundOpacity: "Фон черновика",
+        backgroundOpacityCaption: "Уменьшите, чтобы видеть больше того, что находится за черновиком."
     )
 
     static let es = ScratchpadFeatureStrings(
@@ -142,7 +152,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "Tras un mes sin uso",
         retentionCaption: "El bloc se vacía cuando el texto pasa ese tiempo sin cambios.",
         closeOnClickOutside: "Cerrar al hacer clic fuera",
-        keepOpen: "Mantener abierto"
+        keepOpen: "Mantener abierto",
+        backgroundOpacity: "Fondo del borrador",
+        backgroundOpacityCaption: "Bájalo para ver más de lo que hay detrás del borrador."
     )
 
     static let de = ScratchpadFeatureStrings(
@@ -162,7 +174,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "Nach einem Monat ohne Änderung",
         retentionCaption: "Der Zettel leert sich, wenn der Text so lange nicht bearbeitet wurde.",
         closeOnClickOutside: "Beim Klick außerhalb schließen",
-        keepOpen: "Offen halten"
+        keepOpen: "Offen halten",
+        backgroundOpacity: "Hintergrund des Zettels",
+        backgroundOpacityCaption: "Verringere ihn, um mehr von dem zu sehen, was hinter dem Zettel liegt."
     )
 
     static let fr = ScratchpadFeatureStrings(
@@ -182,7 +196,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "Après un mois sans modification",
         retentionCaption: "Le bloc se vide quand le texte reste aussi longtemps sans modification.",
         closeOnClickOutside: "Fermer si je clique à l’extérieur",
-        keepOpen: "Garder ouvert"
+        keepOpen: "Garder ouvert",
+        backgroundOpacity: "Fond du brouillon",
+        backgroundOpacityCaption: "Baissez-le pour voir davantage ce qui se trouve derrière le brouillon."
     )
 
     static let it = ScratchpadFeatureStrings(
@@ -202,7 +218,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "Dopo un mese senza modifiche",
         retentionCaption: "Il blocco si svuota quando il testo resta così a lungo senza modifiche.",
         closeOnClickOutside: "Chiudi quando clicco fuori",
-        keepOpen: "Mantieni aperto"
+        keepOpen: "Mantieni aperto",
+        backgroundOpacity: "Sfondo della bozza",
+        backgroundOpacityCaption: "Abbassalo per vedere di più di ciò che sta dietro alla bozza."
     )
 
     static let ja = ScratchpadFeatureStrings(
@@ -222,7 +240,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "1か月使わなかったら",
         retentionCaption: "その期間編集がないと、メモは自動で空になります。",
         closeOnClickOutside: "外側をクリックしたら閉じる",
-        keepOpen: "開いたままにする"
+        keepOpen: "開いたままにする",
+        backgroundOpacity: "メモの背景",
+        backgroundOpacityCaption: "下げると、メモの後ろにあるものがより見えるようになります。"
     )
 
     static let ko = ScratchpadFeatureStrings(
@@ -242,7 +262,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "한 달 동안 사용하지 않으면",
         retentionCaption: "그 기간 동안 편집이 없으면 메모가 자동으로 비워집니다.",
         closeOnClickOutside: "바깥을 클릭하면 닫기",
-        keepOpen: "열어 두기"
+        keepOpen: "열어 두기",
+        backgroundOpacity: "메모 배경",
+        backgroundOpacityCaption: "낮추면 메모 뒤에 있는 것이 더 많이 보입니다."
     )
 
     static let zhHans = ScratchpadFeatureStrings(
@@ -262,7 +284,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "一个月未使用后",
         retentionCaption: "文本超过该时间没有编辑时，草稿板会自动清空。",
         closeOnClickOutside: "点击外部时关闭",
-        keepOpen: "保持打开"
+        keepOpen: "保持打开",
+        backgroundOpacity: "草稿板背景",
+        backgroundOpacityCaption: "调低后可以看到更多草稿板后面的内容。"
     )
 
     static let zhTW = ScratchpadFeatureStrings(
@@ -282,7 +306,9 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "一個月未使用後",
         retentionCaption: "文字超過該時間沒有編輯時，草稿板會自動清空。",
         closeOnClickOutside: "點一下外部時關閉",
-        keepOpen: "保持開啟"
+        keepOpen: "保持開啟",
+        backgroundOpacity: "草稿板背景",
+        backgroundOpacityCaption: "調低後可以看到更多草稿板後面的內容。"
     )
 
     static let zhHK = ScratchpadFeatureStrings(
@@ -302,6 +328,8 @@ extension ScratchpadFeatureStrings {
         retentionMonth: "一個月未使用後",
         retentionCaption: "文字超過該時間沒有編輯，草稿板會自動清空。",
         closeOnClickOutside: "點一下外部時關閉",
-        keepOpen: "保持開啟"
+        keepOpen: "保持開啟",
+        backgroundOpacity: "草稿板背景",
+        backgroundOpacityCaption: "調低後可以看到更多草稿板後面的內容。"
     )
 }

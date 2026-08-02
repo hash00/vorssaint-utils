@@ -33,6 +33,16 @@ enum ScratchpadRetention: String, CaseIterable {
 }
 
 enum ScratchpadSupport {
+    /// The pad still has to carry text, so the material never goes fully clear.
+    /// The floor matches the Dock preview's, which was picked to keep body text
+    /// past the contrast the accessibility guidelines ask for.
+    static let backgroundOpacityRange: ClosedRange<Double> = 0.4...1
+
+    static func sanitizedBackgroundOpacity(_ value: Double) -> Double {
+        guard value.isFinite else { return backgroundOpacityRange.upperBound }
+        return min(max(value, backgroundOpacityRange.lowerBound), backgroundOpacityRange.upperBound)
+    }
+
     static func dismissesOnOutsideClick(isPinned: Bool, exportModalActive: Bool) -> Bool {
         !isPinned && !exportModalActive
     }
