@@ -754,6 +754,27 @@ struct ScreenshotEditorView: View {
         }
     }
 
+    /// Depth only means something once a shape is picked, and only when there
+    /// is something else for it to pass.
+    private var showsLayerControls: Bool {
+        model.selectedID != nil && model.annotations.count > 1
+    }
+
+    private func layerButton(_ move: ScreenshotSupport.LayerMove,
+                             symbol: String,
+                             label: String) -> some View {
+        Button {
+            commitEditingTextIfNeeded()
+            model.moveSelected(move)
+        } label: {
+            Image(systemName: symbol)
+                .frame(width: 24, height: 24)
+        }
+        .buttonStyle(.borderless)
+        .screenshotSafeHelp(label)
+        .accessibilityLabel(label)
+    }
+
     private var showsStickerControls: Bool {
         if model.tool == .sticker { return true }
         guard model.tool == .select,
@@ -797,6 +818,13 @@ struct ScreenshotEditorView: View {
                         strokeGlyph(stroke)
                     }
                 }
+                Divider().frame(height: 16)
+            }
+            if showsLayerControls {
+                layerButton(.backward, symbol: "square.2.layers.3d.bottom.filled",
+                            label: strings.sendBackward)
+                layerButton(.forward, symbol: "square.2.layers.3d.top.filled",
+                            label: strings.bringForward)
                 Divider().frame(height: 16)
             }
             annotationShadowButton

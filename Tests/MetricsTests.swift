@@ -7996,6 +7996,26 @@ struct MetricsTests {
         expect(renumbered[0].tool == .arrow || renumbered.count == 3,
                "renumbering never drops annotations")
 
+        let layered = [
+            ScreenshotSupport.Annotation(tool: .text),
+            ScreenshotSupport.Annotation(tool: .rect),
+            ScreenshotSupport.Annotation(tool: .arrow),
+        ]
+        let sentBack = ScreenshotSupport.reordering(layered, moving: layered[1].id, .backward)
+        expect(sentBack.map(\.id) == [layered[1].id, layered[0].id, layered[2].id],
+               "sending back swaps an annotation with the one drawn before it")
+        let broughtForward = ScreenshotSupport.reordering(layered, moving: layered[1].id, .forward)
+        expect(broughtForward.map(\.id) == [layered[0].id, layered[2].id, layered[1].id],
+               "bringing forward swaps an annotation with the one drawn after it")
+        expect(ScreenshotSupport.reordering(layered, moving: layered[0].id, .backward).map(\.id)
+                == layered.map(\.id)
+                && ScreenshotSupport.reordering(layered, moving: layered[2].id, .forward).map(\.id)
+                == layered.map(\.id),
+               "an annotation already at the end of the order stays put")
+        expect(ScreenshotSupport.reordering(layered, moving: UUID(), .forward).map(\.id)
+                == layered.map(\.id),
+               "an unknown annotation leaves the order alone")
+
         let resized = ScreenshotSupport.resizedRect(CGRect(x: 10, y: 10, width: 100, height: 100),
                                                     dragging: .bottomRight,
                                                     to: CGPoint(x: 50, y: 60))
