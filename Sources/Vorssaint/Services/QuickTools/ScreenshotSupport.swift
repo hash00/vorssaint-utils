@@ -729,6 +729,15 @@ enum ScreenshotSupport {
         case forward, backward
     }
 
+    /// Whether the annotation has somewhere to go: false at the end it is
+    /// already heading for, and for an id that is not in the array.
+    static func canReorder(_ annotations: [Annotation],
+                           moving id: UUID,
+                           _ move: LayerMove) -> Bool {
+        guard let index = annotations.firstIndex(where: { $0.id == id }) else { return false }
+        return annotations.indices.contains(move == .forward ? index + 1 : index - 1)
+    }
+
     /// Moves one annotation a single step through the array the renderer draws
     /// in order, so a shape can go behind text that was written first. An
     /// annotation already at the end it is heading for stays put, and an

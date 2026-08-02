@@ -8011,10 +8011,18 @@ struct MetricsTests {
                 == layered.map(\.id)
                 && ScreenshotSupport.reordering(layered, moving: layered[2].id, .forward).map(\.id)
                 == layered.map(\.id),
-               "an annotation already at the end of the order stays put")
+               "an annotation at either end of the order stays put in that direction")
         expect(ScreenshotSupport.reordering(layered, moving: UUID(), .forward).map(\.id)
                 == layered.map(\.id),
                "an unknown annotation leaves the order alone")
+        expect(!ScreenshotSupport.canReorder(layered, moving: layered[0].id, .backward)
+                && ScreenshotSupport.canReorder(layered, moving: layered[0].id, .forward)
+                && !ScreenshotSupport.canReorder(layered, moving: layered[2].id, .forward)
+                && ScreenshotSupport.canReorder(layered, moving: layered[2].id, .backward),
+               "each direction is offered only while the annotation can still take it")
+        expect(!ScreenshotSupport.canReorder(layered, moving: UUID(), .forward)
+                && !ScreenshotSupport.canReorder([], moving: layered[0].id, .backward),
+               "an annotation that is not there can never be reordered")
 
         let resized = ScreenshotSupport.resizedRect(CGRect(x: 10, y: 10, width: 100, height: 100),
                                                     dragging: .bottomRight,

@@ -760,6 +760,13 @@ struct ScreenshotEditorView: View {
         model.selectedID != nil && model.annotations.count > 1
     }
 
+    /// Each direction dims on its own once the shape reaches that end, so the
+    /// buttons never offer a move that would do nothing.
+    private func canMoveSelected(_ move: ScreenshotSupport.LayerMove) -> Bool {
+        guard let selectedID = model.selectedID else { return false }
+        return ScreenshotSupport.canReorder(model.annotations, moving: selectedID, move)
+    }
+
     private func layerButton(_ move: ScreenshotSupport.LayerMove,
                              symbol: String,
                              label: String) -> some View {
@@ -771,6 +778,7 @@ struct ScreenshotEditorView: View {
                 .frame(width: 24, height: 24)
         }
         .buttonStyle(.borderless)
+        .disabled(!canMoveSelected(move))
         .screenshotSafeHelp(label)
         .accessibilityLabel(label)
     }
