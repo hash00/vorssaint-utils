@@ -710,7 +710,6 @@ extension Strings {
         menuBarLabelStyleClassic: "標準",
         monitorMemoryStyleLabel: "メモリの表示",
         monitorMemoryPressureDot: "メモリ圧力ドット",
-        monitorOpenActivityMonitor: "アクティビティモニタを開く",
         memoryStyleDot: "ドット",
         memoryStylePercent: "%",
         memoryStyleBoth: "両方",
@@ -891,6 +890,7 @@ extension Strings {
         shelfFileMissing: "ファイルはもう存在しません",
         previewSizeSmall: "小",
         mixerSoundEffectsOutputTitle: "システムサウンド",
-        mixerSoundEffectsOutputTooltip: "通知音とサウンドエフェクトの出力先を選択"
+        mixerSoundEffectsOutputTooltip: "通知音とサウンドエフェクトの出力先を選択",
+        monitorOpenActivityMonitor: "アクティビティモニタを開く"
     )
 }

@@ -710,7 +710,6 @@ extension Strings {
         menuBarLabelStyleClassic: "Klasik",
         monitorMemoryStyleLabel: "Belleği şöyle göster",
         monitorMemoryPressureDot: "Basınç noktası",
-        monitorOpenActivityMonitor: "Etkinlik Monitörü'nü aç",
         memoryStyleDot: "Nokta",
         memoryStylePercent: "%",
         memoryStyleBoth: "İkisi de",
@@ -891,6 +890,7 @@ extension Strings {
         shelfFileMissing: "Dosya artık yok",
         previewSizeSmall: "Küçük",
         mixerSoundEffectsOutputTitle: "Sistem sesleri",
-        mixerSoundEffectsOutputTooltip: "Uyarıların ve ses efektlerinin çalacağı çıkışı seç"
+        mixerSoundEffectsOutputTooltip: "Uyarıların ve ses efektlerinin çalacağı çıkışı seç",
+        monitorOpenActivityMonitor: "Etkinlik Monitörü'nü aç"
     )
 }

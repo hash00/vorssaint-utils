@@ -711,7 +711,6 @@ extension Strings {
         menuBarLabelStyleClassic: "Классические",
         monitorMemoryStyleLabel: "Показывать память как",
         monitorMemoryPressureDot: "Точка давления",
-        monitorOpenActivityMonitor: "Открыть Мониторинг системы",
         memoryStyleDot: "Точка",
         memoryStylePercent: "%",
         memoryStyleBoth: "Оба",
@@ -892,6 +891,7 @@ extension Strings {
         shelfFileMissing: "Файл больше не существует",
         previewSizeSmall: "Маленький",
         mixerSoundEffectsOutputTitle: "Системные звуки",
-        mixerSoundEffectsOutputTooltip: "Выбрать устройство для оповещений и звуковых эффектов"
+        mixerSoundEffectsOutputTooltip: "Выбрать устройство для оповещений и звуковых эффектов",
+        monitorOpenActivityMonitor: "Открыть Мониторинг системы"
     )
 }

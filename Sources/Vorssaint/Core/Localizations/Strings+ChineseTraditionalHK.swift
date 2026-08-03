@@ -711,7 +711,6 @@ extension Strings {
         menuBarLabelStyleClassic: "經典",
         monitorMemoryStyleLabel: "記憶體顯示方式",
         monitorMemoryPressureDot: "壓力圓點",
-        monitorOpenActivityMonitor: "打開活動監視器",
         memoryStyleDot: "圓點",
         memoryStylePercent: "%",
         memoryStyleBoth: "兩者",
@@ -892,6 +891,7 @@ extension Strings {
         shelfFileMissing: "檔案已不存在",
         previewSizeSmall: "小",
         mixerSoundEffectsOutputTitle: "系統聲音",
-        mixerSoundEffectsOutputTooltip: "選擇提示音和音效的播放裝置"
+        mixerSoundEffectsOutputTooltip: "選擇提示音和音效的播放裝置",
+        monitorOpenActivityMonitor: "打開活動監視器"
     )
 }

@@ -710,7 +710,6 @@ extension Strings {
         menuBarLabelStyleClassic: "Classiche",
         monitorMemoryStyleLabel: "Mostra la memoria come",
         monitorMemoryPressureDot: "Punto pressione",
-        monitorOpenActivityMonitor: "Apri Monitoraggio Attività",
         memoryStyleDot: "Punto",
         memoryStylePercent: "%",
         memoryStyleBoth: "Entrambi",
@@ -891,6 +890,7 @@ extension Strings {
         shelfFileMissing: "Il file non esiste più",
         previewSizeSmall: "Piccola",
         mixerSoundEffectsOutputTitle: "Suoni di sistema",
-        mixerSoundEffectsOutputTooltip: "Scegli dove riprodurre avvisi ed effetti sonori"
+        mixerSoundEffectsOutputTooltip: "Scegli dove riprodurre avvisi ed effetti sonori",
+        monitorOpenActivityMonitor: "Apri Monitoraggio Attività"
     )
 }

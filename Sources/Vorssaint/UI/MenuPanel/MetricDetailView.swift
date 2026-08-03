@@ -113,6 +113,7 @@ struct MetricDetailView: View {
     @State private var lastProcessRefresh = Date.distantPast
     @State private var refreshSerial = 0
     @State private var networkMonitoringActive = false
+    @State private var activityMonitorButtonHovered = false
     private let processLimit = 15
 
     var body: some View {
@@ -285,10 +286,7 @@ struct MetricDetailView: View {
         .panelCard()
     }
 
-    /// The panel lists the heaviest processes; Activity Monitor is where you
-    /// go when that top slice is not enough. Asked for by bundle id so macOS
-    /// answers with wherever it keeps the app, since that path has moved
-    /// between releases. The known path is only the fallback.
+    /// Resolves the system process inspector by bundle identifier because its path has moved.
     private var activityMonitorButton: some View {
         Button {
             let fallback = URL(fileURLWithPath: "/System/Applications/Utilities/Activity Monitor.app")
@@ -298,11 +296,16 @@ struct MetricDetailView: View {
         } label: {
             Image(systemName: "arrow.up.forward.app")
                 .font(.system(size: 10, weight: .medium))
-                .foregroundStyle(.tertiary)
+                .foregroundStyle(.secondary)
+                .frame(width: 18, height: 18)
+                .background(Circle().fill(Color.primary.opacity(activityMonitorButtonHovered ? 0.1 : 0)))
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+        .onHover { activityMonitorButtonHovered = $0 }
         .help(l10n.s.monitorOpenActivityMonitor)
         .accessibilityLabel(l10n.s.monitorOpenActivityMonitor)
+        .animation(.easeOut(duration: 0.12), value: activityMonitorButtonHovered)
     }
 
     private var processCard: some View {
