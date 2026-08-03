@@ -947,10 +947,37 @@ struct MetricsTests {
         )
         expectClose(m1CPU ?? -1, 49.0, "M1 family uses hottest mapped CPU core")
         let m2CPU = TemperatureSensorSelector.displayedCPUTemperature(
-            readings: [("Tp1h", 42.0), ("Tp0j", 52.0), ("Tp0k", 75.0)],
+            readings: [("Tp1h", 7.0), ("Tp0j", 52.0), ("Tp0k", 75.0)],
             platform: .appleM2Family
         )
-        expectClose(m2CPU ?? -1, 52.0, "M2 family uses hottest mapped CPU core")
+        expectClose(m2CPU ?? -1, 52.0, "M2 family ignores broken low CPU readings")
+        expect(TemperatureSensorSelector.displayedCPUTemperature(
+            readings: [("Tp1h", 7.0), ("Tp1t", 6.0)],
+            platform: .appleM2Family
+        ) == nil, "M2 family rejects a sample made only of broken low readings")
+        var chipTemperatureCache: CachedSensorReading?
+        expectClose(TemperatureSensorSelector.stabilizedTemperature(
+            49.25, cache: &chipTemperatureCache, now: 100, maxAge: 30,
+            minimum: TemperatureSensorSelector.minimumChipTemperature
+        ) ?? -1, 49.25, "legitimate chip temperature becomes the cached reading")
+        expectClose(TemperatureSensorSelector.stabilizedTemperature(
+            7, cache: &chipTemperatureCache, now: 101, maxAge: 30,
+            minimum: TemperatureSensorSelector.minimumChipTemperature
+        ) ?? -1, 49.25, "broken low CPU or GPU reading preserves the last valid value")
+        expect(chipTemperatureCache?.updatedAt == 100 && chipTemperatureCache?.missedSamples == 1,
+               "broken low chip reading does not become a fresh cached value")
+        expectClose(TemperatureSensorSelector.stabilizedTemperature(
+            50, cache: &chipTemperatureCache, now: 102, maxAge: 30,
+            minimum: TemperatureSensorSelector.minimumChipTemperature
+        ) ?? -1, 50, "next legitimate chip reading replaces the bridged value")
+        var batteryTemperatureCache: CachedSensorReading?
+        expectClose(TemperatureSensorSelector.stabilizedTemperature(
+            7, cache: &batteryTemperatureCache, now: 100, maxAge: 30
+        ) ?? -1, 7, "chip floor does not reject a legitimate low battery reading")
+        var invalidBatteryTemperatureCache: CachedSensorReading?
+        expect(TemperatureSensorSelector.stabilizedTemperature(
+            1, cache: &invalidBatteryTemperatureCache, now: 100, maxAge: 30
+        ) == nil, "existing battery lower bound remains unchanged")
         let m3CPU = TemperatureSensorSelector.displayedCPUTemperature(
             readings: [("Te05", 44.0), ("Tf4E", 53.0), ("Tf4F", 76.0)],
             platform: .appleM3Family
@@ -1278,6 +1305,10 @@ struct MetricsTests {
                "an unreadable visible-Space set never claims a parked window")
         expect(!SpaceHopSupport.isParkedOnHiddenSpace(windowSpaces: [3, 4], visibleSpaces: [3]),
                "a window pinned to several Spaces including a visible one is reachable")
+        expect(SpaceHopSupport.isExcludedFromWindowCycle(windowTagsLow: 1 << 18),
+               "a window-server surface marked to ignore cycling is excluded from the switcher")
+        expect(!SpaceHopSupport.isExcludedFromWindowCycle(windowTagsLow: (1 << 19) | (1 << 22)),
+               "other window-server tags do not hide a legitimate cross-Space window")
         expect(SpaceHopSupport.arrowSteps(orderedSpacesPerDisplay: [[3, 4, 5]],
                                           visibleSpaces: [3],
                                           target: 5) == 2,
@@ -1945,7 +1976,8 @@ struct MetricsTests {
                "Quick Controls panel section is shown by default")
         expect(registeredDefaults[DefaultsKey.panelShowToggles] as? Bool == true,
                "Quick toggles panel section is shown by default")
-        expect([DefaultsKey.panelToggleDarkMode, DefaultsKey.panelToggleEmptyTrash,
+        expect([DefaultsKey.panelToggleDarkMode, DefaultsKey.panelToggleMicMute,
+                DefaultsKey.panelToggleEmptyTrash,
                 DefaultsKey.panelToggleEjectDisks, DefaultsKey.panelToggleHiddenFiles,
                 DefaultsKey.panelToggleDesktopIcons, DefaultsKey.panelToggleLockScreen,
                 DefaultsKey.panelToggleDisplayOff, DefaultsKey.panelToggleScreenSaver]
@@ -4375,6 +4407,21 @@ struct MetricsTests {
                        || $0 == DefaultsKey.clipboardHistoryShortcutEnabled
                }).contains(.clipboard),
                "the clipboard shortcut activates with both gates on")
+        expect(GlobalShortcutRole.conflict(for: .commandBarDefault,
+                                           excluding: .quickLauncher,
+                                           isOn: { _ in false },
+                                           isAvailable: { _ in true }) == nil,
+               "a disabled feature does not reserve its saved shortcut")
+        expect(GlobalShortcutRole.conflict(for: .commandBarDefault,
+                                           excluding: .quickLauncher,
+                                           isOn: { $0 == DefaultsKey.commandBarShortcutEnabled },
+                                           isAvailable: { _ in true }) == .commandBar,
+               "an enabled feature keeps its saved shortcut reserved")
+        expect(GlobalShortcutRole.conflict(for: .commandBarDefault,
+                                           excluding: .quickLauncher,
+                                           isOn: { _ in true },
+                                           isAvailable: { $0 != .commandBar }) == nil,
+               "a feature hidden from the hub does not reserve its shortcut")
 
         expect(UpdateInstallerSupport.progressStepAdvanced(from: nil, to: 0.004),
                "the first known download fraction always publishes")
@@ -6705,7 +6752,8 @@ struct MetricsTests {
                                           stringFor: { strings[$0] }))
         }
 
-        expect(activeSet(.accessibility) == [.windowLayout, .cleaningMode, .commandBar],
+        expect(activeSet(.accessibility)
+                == [.windowLayout, .cleaningMode, .commandBar, .screenRecorder],
                "with nothing enabled only on-demand features use accessibility")
         expect(activeSet(.accessibility, on: [DefaultsKey.scrollInverterEnabled]).contains(.scrollInverter),
                "an enabled feature counts as using its permission")
@@ -6727,6 +6775,8 @@ struct MetricsTests {
         expect(!activeSet(.accessibility, on: [DefaultsKey.brightnessControlEnabled])
                 .contains(.brightness),
                "brightness sliders alone never use accessibility")
+        expect(activeSet(.accessibility).contains(.screenRecorder),
+               "the recorder uses accessibility for anonymous typing timing while active")
 
         expect(activeSet(.screenRecording, on: [DefaultsKey.switcherEnabled])
                 == [.switcher, .screenOCR, .screenshot, .screenRecorder],
@@ -6960,7 +7010,7 @@ struct MetricsTests {
                    "no em-dash in WhatsApp organizer strings (\(language.rawValue))")
             let recorderValues = Mirror(reflecting: FeatureStrings.recorder(language)).children
                 .compactMap { $0.value as? String }
-            expect(recorderValues.count == 106 && recorderValues.allSatisfy { !$0.isEmpty },
+            expect(recorderValues.count == 105 && recorderValues.allSatisfy { !$0.isEmpty },
                    "every screen recorder string is set for \(language.rawValue)")
             expect(recorderValues.allSatisfy { !$0.contains("—") },
                    "no em-dash in visible screen recorder strings (\(language.rawValue))")
@@ -8888,7 +8938,8 @@ struct MetricsTests {
                "the window preview exclusion list starts empty and travels with the settings backup")
         expect(backupKeys.contains(DefaultsKey.panelShowToggles)
                 && backupKeys.contains(DefaultsKey.panelToggleOrder)
-                && backupKeys.contains(DefaultsKey.panelToggleDarkMode),
+                && backupKeys.contains(DefaultsKey.panelToggleDarkMode)
+                && backupKeys.contains(DefaultsKey.panelToggleMicMute),
                "the quick toggles layout travels with the settings backup")
         expect(!backupKeys.contains(DefaultsKey.clipboardHistoryEntries)
                 && !backupKeys.contains(DefaultsKey.shelfItems)
@@ -9050,6 +9101,13 @@ struct MetricsTests {
                "pinned packages and packages without a version stay out")
         expect(packageRows.allSatisfy { $0.canInstallInPlace },
                "package rows can be installed on the spot")
+        let ownPackageRows = AppUpdatesSupport.packageUpdates(
+            outdated: [caskUpdate("vorssaint", installed: "3.1.12", current: "3.2.0")],
+            installed: [],
+            ignoredTokens: ["vorssaint"],
+            bundleVersion: { _ in nil })
+        expect(ownPackageRows.isEmpty,
+               "the app update list never offers to replace Vorssaint through its own package")
 
         let storeApps = [
             AppUpdatesSupport.InstalledApp(name: "Blocker", bundleID: "net.example.blocker",
@@ -9061,22 +9119,32 @@ struct MetricsTests {
             AppUpdatesSupport.InstalledApp(name: "Chat", bundleID: "com.example.chat",
                                            path: "/Applications/Chat.app",
                                            version: "0.0.401", isFromAppStore: false),
+            AppUpdatesSupport.InstalledApp(name: "Future", bundleID: "com.example.future",
+                                           path: "/Applications/Future.app",
+                                           version: "1.0", isFromAppStore: true),
         ]
         let candidates = AppUpdatesSupport.appStoreCandidates(apps: storeApps,
                                                               coveredPaths: ["/Applications/Chat.app"])
-        expect(candidates.count == 2 && !candidates.contains { $0.bundleID == "com.example.chat" },
+        expect(candidates.count == 3 && !candidates.contains { $0.bundleID == "com.example.chat" },
                "only store purchases are asked about, and never one the package manager answers for")
         let storeVersions = [
             "net.example.blocker": AppUpdatesSupport.StoreEntry(bundleID: "net.example.blocker",
                                                                 version: "2026.723.1724",
+                                                                minimumOSVersion: "14.0",
                                                                 page: "https://apps.apple.com/app"),
             "com.example.sheets": AppUpdatesSupport.StoreEntry(bundleID: "com.example.sheets",
-                                                               version: "16.111.1", page: nil),
+                                                               version: "16.111.1",
+                                                               minimumOSVersion: nil, page: nil),
+            "com.example.future": AppUpdatesSupport.StoreEntry(bundleID: "com.example.future",
+                                                               version: "2.0",
+                                                               minimumOSVersion: "26.0", page: nil),
         ]
-        let storeRows = AppUpdatesSupport.appStoreUpdates(apps: candidates, storeVersions: storeVersions)
+        let storeRows = AppUpdatesSupport.appStoreUpdates(apps: candidates,
+                                                         storeVersions: storeVersions,
+                                                         operatingSystemVersion: "15.7")
         expect(storeRows.count == 1 && storeRows[0].name == "Blocker"
                 && !storeRows[0].canInstallInPlace,
-               "a store app is listed only when the store really has a newer version")
+               "a store app is listed only when its newer version runs on this macOS")
 
         let mergedRows = AppUpdatesSupport.merged(storeRows, packageRows)
         expect(mergedRows.count == packageRows.count + storeRows.count
@@ -9112,8 +9180,9 @@ struct MetricsTests {
         let noCountry = AppUpdatesSupport.storeLookupURL(bundleIDs: ["a.b"], country: nil)?
             .absoluteString ?? ""
         expect(!noCountry.contains("country="), "without a region the request carries none")
-        let lookupBody = Data(#"{"resultCount":1,"results":[{"bundleId":"a.b","version":"2.0","trackViewUrl":"https://x"}]}"#.utf8)
-        expect(AppUpdatesSupport.parseStoreLookup(lookupBody)["a.b"]?.version == "2.0",
+        let lookupBody = Data(#"{"resultCount":1,"results":[{"bundleId":"a.b","version":"2.0","minimumOsVersion":"15.0","trackViewUrl":"https://x"}]}"#.utf8)
+        let lookupEntry = AppUpdatesSupport.parseStoreLookup(lookupBody)["a.b"]
+        expect(lookupEntry?.version == "2.0" && lookupEntry?.minimumOSVersion == "15.0",
                "the store answer is read back")
         expect(AppUpdatesSupport.parseStoreLookup(Data("not json".utf8)).isEmpty,
                "a broken store answer yields nothing instead of throwing")
@@ -9520,8 +9589,8 @@ struct MetricsTests {
                "the recording shortcut role gates on its toggle and feature")
         expect(AppFeature.screenRecorder.group == .tools
                 && AppFeature.screenRecorder.enabledKeys.isEmpty
-                && AppFeature.screenRecorder.permissions == [.screenRecording],
-               "the recorder is an on-demand tool and the sound rides the screen grant")
+                && AppFeature.screenRecorder.permissions == [.screenRecording, .accessibility],
+               "the recorder is on demand and keeps typing timing only while recording")
         expect(AppFeature.screenRecorder.energyProfile == .idle,
                "the recorder costs nothing between recordings")
         expect(pageVisible(.screenRecorder, available: [.screenRecorder])
@@ -9667,7 +9736,7 @@ struct MetricsTests {
                "unknown GIF settings fall back to the middle choice")
 
         var document = RecorderEditDocument()
-        expect(!document.isEdited(duration: 12),
+        expect(!document.isEdited(duration: 12) && !document.zoomsOnTyping,
                "a recording nobody touched is not treated as edited")
         document.trimStart = 3
         expect(document.isEdited(duration: 12),
@@ -9679,9 +9748,10 @@ struct MetricsTests {
                 && repaired.trim(duration: 12).duration > 0,
                "a damaged edit is repaired instead of wedging the editor")
         let documentRoundTrip = RecorderEditDocument.decoded(
-            RecorderEditDocument(trimStart: 1, trimEnd: 4, keepsSystemAudio: false).encoded())
+            RecorderEditDocument(trimStart: 1, trimEnd: 4, keepsSystemAudio: false,
+                                 zoomsOnTyping: true).encoded())
         expect(documentRoundTrip.trimStart == 1 && documentRoundTrip.trimEnd == 4
-                && !documentRoundTrip.keepsSystemAudio,
+                && !documentRoundTrip.keepsSystemAudio && documentRoundTrip.zoomsOnTyping,
                "an edit written next to the recording comes back exactly as it was")
         expect(RecorderEditDocument.decoded(Data("not json".utf8)).trimStart == 0,
                "an unreadable edit opens the recording untouched instead of failing")
@@ -9702,17 +9772,9 @@ struct MetricsTests {
         expect(preservedZooms.zoomSegments == [intentionalZoom],
                "recovering automatic zoom never replaces a zoom that is still on the timeline")
 
-        let keyboardTrack = RecorderKeyboardTrack(presses: [
-            .init(time: 1, label: "⌘K"),
-            .init(time: 1.2, label: "S"),
-        ])
-        expect(RecorderKeyboardTrack.decoded(keyboardTrack.encoded()) == keyboardTrack,
-               "the optional keyboard track round-trips next to the recording")
-        expect(RecorderKeystrokeRenderer.image(labels: ["⌘K", "S"], canvasHeight: 1080) != nil,
-               "pressed keys draw as lightweight keycaps for the finished frame")
-        expect(keyboardTrack.overlay(at: 1.25)?.labels == ["⌘K", "S"]
-                && keyboardTrack.overlay(at: 2.56) == nil,
-               "recent keys group together and then leave the picture")
+        let typingTrack = RecorderTypingTrack(times: [1, 1.2])
+        expect(RecorderTypingTrack.decoded(typingTrack.encoded()) == typingTrack,
+               "typing timing round-trips without storing which keys were pressed")
 
         var styled = RecorderEditDocument(backdrop: "style", zoomAmount: 2.4,
                                           texts: [RecorderTextOverlay(text: "Keep", start: 0,
@@ -9782,6 +9844,20 @@ struct MetricsTests {
                "a burst of clicks is one zoom that holds, not a flicker")
         expect(oneZoom.first.map { $0.start < 2.0 } == true,
                "the zoom begins BEFORE the click, which is only possible offline")
+        let typingZoom = RecorderMotion.zoomSegments(
+            clicks: [RecorderMotion.Click(time: 2, isDown: true)],
+            typingTimes: [4, 5, 6],
+            duration: 20)
+        expect(typingZoom.first.map { $0.end >= 7.39 } == true,
+               "typing after a click keeps that zoom on the field until writing stops")
+        let delayedTypingZoom = RecorderMotion.zoomSegments(
+            clicks: [RecorderMotion.Click(time: 2, isDown: true)],
+            typingTimes: [9, 10],
+            duration: 20)
+        expect(delayedTypingZoom.first.map { $0.end >= 11.39 } == true,
+               "a pause after focusing a field does not lose its typing zoom")
+        expect(RecorderMotion.zoomSegments(clicks: [], typingTimes: [2, 3], duration: 20).isEmpty,
+               "typing without a click never invents a place to zoom")
         let farApart = [RecorderMotion.Click(time: 2.0, isDown: true),
                         RecorderMotion.Click(time: 12.0, isDown: true)]
         expect(RecorderMotion.zoomSegments(clicks: farApart, duration: 20).count == 2,

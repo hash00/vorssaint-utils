@@ -7,14 +7,14 @@ All notable changes to this project are documented here. The format follows
 ## [3.3.0]
 
 ### Summary
-Vorssaint 3.3.0 records and edits the screen, captures long scrolling pages and
-restores recent Window Layout placements. Finder gains image tools and shortcuts,
-Screenshot adds direct full-screen capture and reopens its latest capture, while
-the Volume Mixer routes system sounds separately.
+Vorssaint 3.3.0 records the screen with automatic zooms, captures long scrolling
+pages and restores recent Window Layout placements. Finder gains image tools
+and shortcuts, while the mixer separates overall volume from system sounds and
+menu bar readings match the active display.
 
 ### Added
-- Screen recording with a clean editor, adjustable backgrounds, key presses,
-  reusable presets and direct copy, plus video and GIF export. Off by default.
+- Screen recording with automatic zooms for clicks and typing, reusable presets,
+  direct copy, and video or GIF export. Off by default.
 - Scrolling screenshots join long pages and documents into one image, from
   Screenshot or the Command Bar. Thanks to @ruvelro.
 - A slider for how solid the Dock preview panel looks. Under Switcher, with
@@ -33,8 +33,10 @@ the Volume Mixer routes system sounds separately.
   Under Quick Tools. Thanks to @hash00.
 
 ### Changed
-- System sounds can use a different output from apps, chosen directly in the
-  Volume Mixer. Thanks to @p3P4.
+- The Volume Mixer adjusts overall volume directly and can send system sounds
+  to a separate output. Thanks to @vkplayz0 and @p3P4.
+- Mute microphone now lives in Quick toggles in the menu bar panel. Thanks to
+  @AB-boi.
 - The Scratchpad now has a pin that keeps the current note open until you close
   it. Thanks to @hash00.
 - Window Layout's Restore action now steps back through recent placements.
@@ -50,6 +52,20 @@ the Volume Mixer routes system sounds separately.
   under Energy. Thanks to @hash00.
 
 ### Fixed
+- Menu bar readings now dim with the rest of the bar on displays that are not
+  active. Thanks to @JaffryGao.
+- The App Switcher's initial selection no longer loses part of its border when
+  only two apps are available. Thanks to @WiLuX-Source.
+- CPU and GPU temperatures no longer drop to impossible single-digit readings
+  when a sensor briefly reports bad data. Thanks to @georgo.
+- The App Switcher no longer adds a blank duplicate for a window on another
+  desktop. Thanks to @CSkjolden.
+- App Updates no longer lists Vorssaint itself or versions that need a newer
+  macOS. Thanks to @AB-boi.
+- A disabled feature no longer blocks its saved shortcut from being used
+  elsewhere. Thanks to @AB-boi.
+- Three-finger middle clicks now stay reliable when macOS initially reads the
+  press as a secondary click. Thanks to @justareported-blip.
 - The App Switcher no longer stalls when certain apps are open. Thanks to
   @Sirtx.
 - Radial menu submenus now open their action list after creation and keep it
