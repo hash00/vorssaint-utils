@@ -203,6 +203,14 @@ enum ScreenshotSupport {
         return (longestRun, matchingRows, Double(totalDifference) / Double(comparedPixels))
     }
 
+    /// Restores the pixels-per-point scale stored as standard PNG DPI.
+    static func captureScale(fromDPI dpi: Double?) -> CGFloat? {
+        guard let dpi, dpi.isFinite else { return nil }
+        let scale = dpi / 72
+        guard (0.5...4).contains(scale) else { return nil }
+        return CGFloat(scale)
+    }
+
     // MARK: - Selection geometry
 
     /// Rectangle between two drag points. `square` constrains to the largest
@@ -714,6 +722,35 @@ enum ScreenshotSupport {
             self.stroke = stroke
             self.number = number
         }
+    }
+
+    /// Which way a selected annotation moves through the drawing order.
+    enum LayerMove {
+        case forward, backward
+    }
+
+    /// Whether the annotation has somewhere to go: false at the end it is
+    /// already heading for, and for an id that is not in the array.
+    static func canReorder(_ annotations: [Annotation],
+                           moving id: UUID,
+                           _ move: LayerMove) -> Bool {
+        guard let index = annotations.firstIndex(where: { $0.id == id }) else { return false }
+        return annotations.indices.contains(move == .forward ? index + 1 : index - 1)
+    }
+
+    /// Moves one annotation a single step through the array the renderer draws
+    /// in order, so a shape can go behind text that was written first. An
+    /// annotation already at the end it is heading for stays put, and an
+    /// unknown id leaves the array alone.
+    static func reordering(_ annotations: [Annotation],
+                           moving id: UUID,
+                           _ move: LayerMove) -> [Annotation] {
+        guard let index = annotations.firstIndex(where: { $0.id == id }) else { return annotations }
+        let target = move == .forward ? index + 1 : index - 1
+        guard annotations.indices.contains(target) else { return annotations }
+        var reordered = annotations
+        reordered.swapAt(index, target)
+        return reordered
     }
 
     /// Counters stay 1…n in creation order; deleting one renumbers the rest

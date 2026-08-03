@@ -182,6 +182,12 @@ struct GlobalShortcut: Equatable, Hashable {
     // Default screenshot shortcut on the available control-option-command layer.
     static let screenshotDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_4),
                                                   modifiers: [.control, .option, .command])
+    // Full screen sits beside the selector's 4 and the recorder's 5.
+    static let screenshotFullScreenDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_3),
+                                                            modifiers: [.control, .option, .command])
+    // E opens the latest capture in the editor, beside the capture shortcut.
+    static let screenshotLastCaptureDefault = GlobalShortcut(keyCode: Int64(kVK_ANSI_E),
+                                                             modifiers: [.control, .option, .command])
     // Space for the wheel, on the same free control-option-command layer.
     static let radialMenuDefault = GlobalShortcut(keyCode: Int64(kVK_Space),
                                                   modifiers: [.control, .option, .command])
@@ -520,6 +526,8 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
     case micMute
     case quickLauncher
     case screenshot
+    case screenshotFullScreen
+    case screenshotLastCapture
     case cameraPreview
     case radialMenu
     case scratchpad
@@ -544,6 +552,8 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .micMute: return DefaultsKey.micMuteShortcut
         case .quickLauncher: return DefaultsKey.quickLauncherShortcut
         case .screenshot: return DefaultsKey.screenshotShortcut
+        case .screenshotFullScreen: return DefaultsKey.screenshotFullScreenShortcut
+        case .screenshotLastCapture: return DefaultsKey.screenshotLastCaptureShortcut
         case .cameraPreview: return DefaultsKey.cameraPreviewShortcut
         case .radialMenu: return DefaultsKey.radialMenuShortcut
         case .scratchpad: return DefaultsKey.scratchpadShortcut
@@ -568,6 +578,8 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .micMute: return .micMuteDefault
         case .quickLauncher: return .quickLauncherDefault
         case .screenshot: return .screenshotDefault
+        case .screenshotFullScreen: return .screenshotFullScreenDefault
+        case .screenshotLastCapture: return .screenshotLastCaptureDefault
         case .cameraPreview: return .cameraPreviewDefault
         case .radialMenu: return .radialMenuDefault
         case .scratchpad: return .scratchpadDefault
@@ -596,6 +608,10 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .micMute: return strings.micMuteName
         case .quickLauncher: return strings.launcherName
         case .screenshot: return FeatureStrings.screenshot(L10n.shared.language).pageTitle
+        case .screenshotFullScreen:
+            return FeatureStrings.screenshot(L10n.shared.language).fullScreenShortcutTitle
+        case .screenshotLastCapture:
+            return FeatureStrings.screenshot(L10n.shared.language).editLastCapture
         case .cameraPreview: return FeatureStrings.cameraPreview(L10n.shared.language).pageTitle
         case .radialMenu: return FeatureStrings.radialMenu(L10n.shared.language).pageTitle
         case .scratchpad: return FeatureStrings.scratchpad(L10n.shared.language).pageTitle
@@ -605,8 +621,11 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         }
     }
 
-    static func conflict(for shortcut: GlobalShortcut, excluding role: GlobalShortcutRole) -> GlobalShortcutRole? {
-        allCases.first { candidate in
+    static func conflict(for shortcut: GlobalShortcut,
+                         excluding role: GlobalShortcutRole?,
+                         isOn: (String) -> Bool = { UserDefaults.standard.bool(forKey: $0) },
+                         isAvailable: (AppFeature) -> Bool = { $0.isAvailable }) -> GlobalShortcutRole? {
+        activeRoles(isOn: isOn, isAvailable: isAvailable).first { candidate in
             candidate != role && candidate.savedShortcut == shortcut
         }
     }
@@ -630,6 +649,8 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .micMute: return [DefaultsKey.micMuteShortcutEnabled]
         case .quickLauncher: return [DefaultsKey.quickLauncherShortcutEnabled]
         case .screenshot: return [DefaultsKey.screenshotShortcutEnabled]
+        case .screenshotFullScreen: return [DefaultsKey.screenshotFullScreenShortcutEnabled]
+        case .screenshotLastCapture: return [DefaultsKey.screenshotLastCaptureShortcutEnabled]
         case .cameraPreview: return [DefaultsKey.cameraPreviewShortcutEnabled]
         case .radialMenu: return [DefaultsKey.radialMenuEnabled]
         case .scratchpad: return [DefaultsKey.scratchpadShortcutEnabled]
@@ -655,7 +676,7 @@ enum GlobalShortcutRole: CaseIterable, Identifiable {
         case .screenOCR: return .screenOCR
         case .micMute: return .micMute
         case .quickLauncher: return .quickLauncher
-        case .screenshot: return .screenshot
+        case .screenshot, .screenshotFullScreen, .screenshotLastCapture: return .screenshot
         case .cameraPreview: return .cameraPreview
         case .radialMenu: return .radialMenu
         case .scratchpad: return .scratchpad

@@ -99,6 +99,11 @@ struct ScreenshotFeatureStrings {
     let scrollingCaptureHintOff: String
     let scrollingCaptureHintOn: String
     let scrollingCaptureTooLongHUD: String
+    let editLastCapture: String
+    let lastCaptureMissing: String
+    let fullScreenShortcutTitle: String
+    let bringForward: String
+    let sendBackward: String
 }
 
 extension FeatureStrings {
@@ -216,7 +221,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Capturing scroll...",
         scrollingCaptureHintOff: "S toggles scrolling",
         scrollingCaptureHintOn: "Scrolling on",
-        scrollingCaptureTooLongHUD: "This capture is too long to finish safely"
+        scrollingCaptureTooLongHUD: "This capture is too long to finish safely",
+        editLastCapture: "Edit latest screenshot",
+        lastCaptureMissing: "Take a screenshot first",
+        fullScreenShortcutTitle: "Capture the whole screen",
+        bringForward: "Bring forward",
+        sendBackward: "Send backward"
     )
 
     static let ptBR = ScreenshotFeatureStrings(
@@ -313,7 +323,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Capturando rolagem...",
         scrollingCaptureHintOff: "S alterna rolagem",
         scrollingCaptureHintOn: "Rolagem ligada",
-        scrollingCaptureTooLongHUD: "Esta captura é longa demais para terminar com segurança"
+        scrollingCaptureTooLongHUD: "Esta captura é longa demais para terminar com segurança",
+        editLastCapture: "Editar a captura mais recente",
+        lastCaptureMissing: "Faça uma captura de tela primeiro",
+        fullScreenShortcutTitle: "Capturar a tela inteira",
+        bringForward: "Trazer para frente",
+        sendBackward: "Enviar para trás"
     )
 
     static let tr = ScreenshotFeatureStrings(
@@ -410,7 +425,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Kaydırma yakalanıyor...",
         scrollingCaptureHintOff: "S kaydırmayı açar",
         scrollingCaptureHintOn: "Kaydırma açık",
-        scrollingCaptureTooLongHUD: "Bu yakalama güvenle tamamlanamayacak kadar uzun"
+        scrollingCaptureTooLongHUD: "Bu yakalama güvenle tamamlanamayacak kadar uzun",
+        editLastCapture: "Son ekran görüntüsünü düzenle",
+        lastCaptureMissing: "Önce bir ekran görüntüsü alın",
+        fullScreenShortcutTitle: "Tüm ekranı yakala",
+        bringForward: "Öne getir",
+        sendBackward: "Arkaya gönder"
     )
 
     static let ru = ScreenshotFeatureStrings(
@@ -507,7 +527,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Снимаем прокрутку...",
         scrollingCaptureHintOff: "S включает прокрутку",
         scrollingCaptureHintOn: "Прокрутка включена",
-        scrollingCaptureTooLongHUD: "Этот снимок слишком длинный для безопасного завершения"
+        scrollingCaptureTooLongHUD: "Этот снимок слишком длинный для безопасного завершения",
+        editLastCapture: "Редактировать последний снимок",
+        lastCaptureMissing: "Сначала сделайте снимок экрана",
+        fullScreenShortcutTitle: "Снять весь экран",
+        bringForward: "На передний план",
+        sendBackward: "На задний план"
     )
 
     static let es = ScreenshotFeatureStrings(
@@ -604,7 +629,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Capturando desplazamiento...",
         scrollingCaptureHintOff: "S activa desplazamiento",
         scrollingCaptureHintOn: "Desplazamiento activo",
-        scrollingCaptureTooLongHUD: "Esta captura es demasiado larga para terminarla con seguridad"
+        scrollingCaptureTooLongHUD: "Esta captura es demasiado larga para terminarla con seguridad",
+        editLastCapture: "Editar la captura más reciente",
+        lastCaptureMissing: "Haz una captura de pantalla primero",
+        fullScreenShortcutTitle: "Capturar toda la pantalla",
+        bringForward: "Traer adelante",
+        sendBackward: "Enviar atrás"
     )
 
     static let de = ScreenshotFeatureStrings(
@@ -701,7 +731,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Scroll wird aufgenommen...",
         scrollingCaptureHintOff: "S schaltet Scrollen um",
         scrollingCaptureHintOn: "Scrollen aktiv",
-        scrollingCaptureTooLongHUD: "Diese Aufnahme ist zu lang, um sie sicher abzuschließen"
+        scrollingCaptureTooLongHUD: "Diese Aufnahme ist zu lang, um sie sicher abzuschließen",
+        editLastCapture: "Letztes Bildschirmfoto bearbeiten",
+        lastCaptureMissing: "Nimm zuerst ein Bildschirmfoto auf",
+        fullScreenShortcutTitle: "Gesamten Bildschirm aufnehmen",
+        bringForward: "Nach vorne holen",
+        sendBackward: "Nach hinten schicken"
     )
 
     static let fr = ScreenshotFeatureStrings(
@@ -798,7 +833,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Capture du défilement...",
         scrollingCaptureHintOff: "S active le défilement",
         scrollingCaptureHintOn: "Défilement activé",
-        scrollingCaptureTooLongHUD: "Cette capture est trop longue pour être terminée en toute sécurité"
+        scrollingCaptureTooLongHUD: "Cette capture est trop longue pour être terminée en toute sécurité",
+        editLastCapture: "Modifier la dernière capture",
+        lastCaptureMissing: "Prenez d'abord une capture d'écran",
+        fullScreenShortcutTitle: "Capturer tout l’écran",
+        bringForward: "Avancer",
+        sendBackward: "Reculer"
     )
 
     static let it = ScreenshotFeatureStrings(
@@ -895,7 +935,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "Cattura scorrimento...",
         scrollingCaptureHintOff: "S attiva scorrimento",
         scrollingCaptureHintOn: "Scorrimento attivo",
-        scrollingCaptureTooLongHUD: "Questa cattura è troppo lunga per essere completata in sicurezza"
+        scrollingCaptureTooLongHUD: "Questa cattura è troppo lunga per essere completata in sicurezza",
+        editLastCapture: "Modifica l'ultima cattura",
+        lastCaptureMissing: "Prima acquisisci un'istantanea",
+        fullScreenShortcutTitle: "Acquisisci l’intero schermo",
+        bringForward: "Porta avanti",
+        sendBackward: "Porta indietro"
     )
 
     static let ja = ScreenshotFeatureStrings(
@@ -992,7 +1037,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "スクロールを撮影中...",
         scrollingCaptureHintOff: "Sでスクロール切替",
         scrollingCaptureHintOn: "スクロール有効",
-        scrollingCaptureTooLongHUD: "このキャプチャは長すぎて安全に完了できません"
+        scrollingCaptureTooLongHUD: "このキャプチャは長すぎて安全に完了できません",
+        editLastCapture: "最新のスクリーンショットを編集",
+        lastCaptureMissing: "先にスクリーンショットを撮影してください",
+        fullScreenShortcutTitle: "画面全体をキャプチャ",
+        bringForward: "前面へ移動",
+        sendBackward: "背面へ移動"
     )
 
     static let ko = ScreenshotFeatureStrings(
@@ -1089,7 +1139,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "스크롤 캡처 중...",
         scrollingCaptureHintOff: "S로 스크롤 전환",
         scrollingCaptureHintOn: "스크롤 켜짐",
-        scrollingCaptureTooLongHUD: "이 캡처는 너무 길어 안전하게 완료할 수 없습니다"
+        scrollingCaptureTooLongHUD: "이 캡처는 너무 길어 안전하게 완료할 수 없습니다",
+        editLastCapture: "최근 스크린샷 편집",
+        lastCaptureMissing: "먼저 스크린샷을 캡처하세요",
+        fullScreenShortcutTitle: "전체 화면 캡처",
+        bringForward: "앞으로 가져오기",
+        sendBackward: "뒤로 보내기"
     )
 
     static let zhHans = ScreenshotFeatureStrings(
@@ -1186,7 +1241,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "正在捕捉滚动...",
         scrollingCaptureHintOff: "按 S 切换滚动",
         scrollingCaptureHintOn: "滚动已开启",
-        scrollingCaptureTooLongHUD: "这次截图过长，无法安全完成"
+        scrollingCaptureTooLongHUD: "这次截图过长，无法安全完成",
+        editLastCapture: "编辑最新截屏",
+        lastCaptureMissing: "请先截取一张屏幕图像",
+        fullScreenShortcutTitle: "捕捉整个屏幕",
+        bringForward: "上移一层",
+        sendBackward: "下移一层"
     )
 
     static let zhTW = ScreenshotFeatureStrings(
@@ -1283,7 +1343,12 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "正在擷取捲動...",
         scrollingCaptureHintOff: "按 S 切換捲動",
         scrollingCaptureHintOn: "捲動已開啟",
-        scrollingCaptureTooLongHUD: "這次截圖太長，無法安全完成"
+        scrollingCaptureTooLongHUD: "這次截圖太長，無法安全完成",
+        editLastCapture: "編輯最新截圖",
+        lastCaptureMissing: "請先擷取一張截圖",
+        fullScreenShortcutTitle: "擷取整個螢幕",
+        bringForward: "上移一層",
+        sendBackward: "下移一層"
     )
 
     static let zhHK = ScreenshotFeatureStrings(
@@ -1380,6 +1445,11 @@ extension ScreenshotFeatureStrings {
         scrollingCaptureProgressHUD: "正在擷取捲動...",
         scrollingCaptureHintOff: "按 S 切換捲動",
         scrollingCaptureHintOn: "捲動已開啟",
-        scrollingCaptureTooLongHUD: "呢次截圖太長，無法安全完成"
+        scrollingCaptureTooLongHUD: "呢次截圖太長，無法安全完成",
+        editLastCapture: "編輯最新截圖",
+        lastCaptureMissing: "請先擷取一張截圖",
+        fullScreenShortcutTitle: "擷取整個螢幕",
+        bringForward: "上移一層",
+        sendBackward: "下移一層"
     )
 }

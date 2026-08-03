@@ -194,6 +194,8 @@ enum DefaultsKey {
     static let panelShowToggles = "panelShowToggles"
     // Quick toggles tab: per-action visibility (the order lives in panelToggleOrder).
     static let panelToggleDarkMode = "panelToggleDarkMode"
+    // Keep the existing storage key so moving the row preserves its visibility choice.
+    static let panelToggleMicMute = "panelUtilityMicMute"
     static let panelToggleEmptyTrash = "panelToggleEmptyTrash"
     static let panelToggleEjectDisks = "panelToggleEjectDisks"
     static let panelToggleHiddenFiles = "panelToggleHiddenFiles"
@@ -370,7 +372,6 @@ enum DefaultsKey {
     static let panelUtilityQuickLauncher = "panelUtilityQuickLauncher"
     static let panelUtilityColorPicker = "panelUtilityColorPicker"
     static let panelUtilityScreenOCR = "panelUtilityScreenOCR"
-    static let panelUtilityMicMute = "panelUtilityMicMute"
     static let panelUtilityCameraPreview = "panelUtilityCameraPreview"
     static let panelUtilityScratchpad = "panelUtilityScratchpad"
     static let clipboardHistoryShortcutEnabled = "clipboardHistoryShortcutEnabled"
@@ -378,6 +379,10 @@ enum DefaultsKey {
     // Screenshot capture and editor.
     static let screenshotShortcutEnabled = "screenshotShortcutEnabled"
     static let screenshotShortcut = "screenshotShortcut"
+    static let screenshotFullScreenShortcutEnabled = "screenshotFullScreenShortcutEnabled"
+    static let screenshotFullScreenShortcut = "screenshotFullScreenShortcut"
+    static let screenshotLastCaptureShortcutEnabled = "screenshotLastCaptureShortcutEnabled"
+    static let screenshotLastCaptureShortcut = "screenshotLastCaptureShortcut"
     static let screenshotFreeze = "screenshotFreeze"
     static let screenshotSaveFolder = "screenshotSaveFolder"
     static let screenshotSaveSubfolder = "screenshotSaveSubfolder"
@@ -414,7 +419,6 @@ enum DefaultsKey {
     static let recorderOpenEditor = "recorderOpenEditor"
     static let recorderGIFSize = "recorderGIFSize"
     static let recorderGIFFrameRate = "recorderGIFFrameRate"
-    static let recorderShowKeystrokes = "recorderShowKeystrokes"
     static let recorderEditorPresets = "recorderEditorPresets"
     static let panelUtilityScreenRecorder = "panelUtilityScreenRecorder"
 
@@ -792,6 +796,7 @@ enum Defaults {
         DefaultsKey.panelShowControls: true,
         DefaultsKey.panelShowToggles: true,
         DefaultsKey.panelToggleDarkMode: true,
+        DefaultsKey.panelToggleMicMute: true,
         DefaultsKey.panelToggleEmptyTrash: true,
         DefaultsKey.panelToggleEjectDisks: true,
         DefaultsKey.panelToggleHiddenFiles: true,
@@ -936,7 +941,6 @@ enum Defaults {
         DefaultsKey.panelUtilityQuickLauncher: true,
         DefaultsKey.panelUtilityColorPicker: true,
         DefaultsKey.panelUtilityScreenOCR: true,
-        DefaultsKey.panelUtilityMicMute: true,
         DefaultsKey.panelUtilityCameraPreview: true,
         DefaultsKey.panelUtilityScratchpad: true,
         DefaultsKey.clipboardHistoryShortcutEnabled: true,
@@ -951,11 +955,14 @@ enum Defaults {
         DefaultsKey.recorderOpenEditor: true,
         DefaultsKey.recorderGIFSize: RecorderSupport.GIFSize.medium.rawValue,
         DefaultsKey.recorderGIFFrameRate: 12,
-        DefaultsKey.recorderShowKeystrokes: false,
         DefaultsKey.recorderEditorPresets: Data(),
         DefaultsKey.panelUtilityScreenRecorder: true,
         DefaultsKey.screenshotShortcutEnabled: false,
         DefaultsKey.screenshotShortcut: GlobalShortcut.screenshotDefault.storageValue,
+        DefaultsKey.screenshotFullScreenShortcutEnabled: false,
+        DefaultsKey.screenshotFullScreenShortcut: GlobalShortcut.screenshotFullScreenDefault.storageValue,
+        DefaultsKey.screenshotLastCaptureShortcutEnabled: false,
+        DefaultsKey.screenshotLastCaptureShortcut: GlobalShortcut.screenshotLastCaptureDefault.storageValue,
         DefaultsKey.screenshotFreeze: true,
         DefaultsKey.screenshotSaveFolder: "",
         DefaultsKey.screenshotSaveSubfolder: "",
